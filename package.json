@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "npm run build && gh-pages -d build",
-    "depOnPgs": "gh-pages -d dist"
+    "depOnPgs": "gh-pages -d dist",
+    "homepage": "https://justifybaby.github.io/gratestdish/"
   },
   "dependencies": {
     "express": "^4.18.2",
