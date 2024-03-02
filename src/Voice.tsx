@@ -1,8 +1,8 @@
-// import React from 'react';
-import { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import storage from "./firebase";
 import { ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { fileAllowUndefined } from './types';
+import src from "./audio/kya.mp3";
 
 type Props = {
   imgSrc: string;
@@ -31,7 +31,7 @@ const Voice = ({ imgSrc }: Props) => {
     });
   };
 
-  const sound = audioSrc ? new Audio(audioSrc) : null;
+  const sound = audioSrc ? new Audio(audioSrc) : new Audio(src);
   const soundLoop = (isLoop: boolean) => {
     if (sound === null) return;
     sound.play();
