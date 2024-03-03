@@ -30,6 +30,11 @@ function App() {
     );
   };
 
+  const imgClick = () => {
+    const btn = document.getElementById("start");
+    btn?.click();
+  };
+
   return (
     <div>
       <div className="flex">
@@ -43,7 +48,7 @@ function App() {
           <p className="file-none">Click Here</p>
         </label>
         <br />
-        <img src={imgSrc} alt='まだ、画像がありません。' />
+        <img src={imgSrc} alt='まだ、画像がありません。' onClick={imgClick} />
         <Voice imgSrc={imgSrc} />
       </div>
     </div>

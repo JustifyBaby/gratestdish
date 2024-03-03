@@ -56,7 +56,7 @@ const Voice = ({ imgSrc }: Props) => {
         </label>
 
         <div className="audio-handler">
-          <button onClick={() => { soundLoop(true); }}>再生</button>
+          <button onClick={() => { soundLoop(true); }} id='start'>再生</button>
           <button onClick={() => sound.pause()}>一時停止</button>
         </div>
       </div >
