@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import storage from "./firebase";
 import { ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { fileAllowUndefined } from './types';
@@ -57,7 +57,7 @@ const Voice = ({ imgSrc }: Props) => {
 
         <div className="audio-handler">
           <button onClick={() => { soundLoop(true); }}>再生</button>
-          <button onClick={() => sound ? sound.pause() : null}>一時停止</button>
+          <button onClick={() => sound.pause()}>一時停止</button>
         </div>
       </div >
     );
