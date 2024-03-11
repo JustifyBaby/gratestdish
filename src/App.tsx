@@ -36,7 +36,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div id='App'>
       <div className="flex">
         <label className='file-label'>
           <input
@@ -49,6 +49,14 @@ function App() {
         </label>
         <br />
         <img src={imgSrc} alt='まだ、画像がありません。' onClick={imgClick} />
+        {(imgSrc === "") ?
+          <div className='back-video'>
+            <h2 className="left">なぜこのサイトは</h2>
+            <h2 className="center">タイトルがGRATEST DISH（ｒｙなのでしょうか？</h2>
+            <div className='roll'>? ? ?</div>
+            <h2 className="right">最高の夜をお過ごしくださいね！</h2>
+          </div> :
+          <div className='void'></div>}
         <Voice imgSrc={imgSrc} />
       </div>
     </div>
