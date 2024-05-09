@@ -1,12 +1,18 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from "react";
 import storage from "./firebase";
-import { ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { fileAllowUndefined } from './types';
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { fileAllowUndefined } from "./types";
 import src from "./audio/kya.mp3";
+import icon from "./bg/audio-s-ico.png";
 
 type Props = {
   imgSrc: string;
-}
+};
 
 const Voice = ({ imgSrc }: Props) => {
   const [audioSrc, setAudioSrc] = useState<string>("");
@@ -19,15 +25,17 @@ const Voice = ({ imgSrc }: Props) => {
     const name = audio?.name;
     const storageRef = ref(storage, `sounds/${name}`);
     // eslint-disable-next-line no-console
-    uploadBytes(storageRef, audio).then(() => console.log("Success At Audio.")).catch((err) => console.error(`Failed because ${err}`));
+    uploadBytes(storageRef, audio)
+      .then(() => console.log("Success At Audio."))
+      .catch((err) => console.error(`Failed because ${err}`));
     const uploadTask = uploadBytesResumable(storageRef, audio);
 
     uploadTask.on("state_changed", () => {
       getDownloadURL(uploadTask.snapshot.ref)
-        .then(url => setAudioSrc(url))
+        .then((url) => setAudioSrc(url))
         // エラーログは欲しい
         // eslint-disable-next-line no-console
-        .catch(err => console.error(err + "is happen."));
+        .catch((err) => console.error(err + "is happen."));
     });
   };
 
@@ -36,31 +44,42 @@ const Voice = ({ imgSrc }: Props) => {
     if (sound === null) return;
     sound.play();
     sound.onended = () => {
-      if (isLoop) { soundLoop(true); } else { return; }
+      if (isLoop) {
+        soundLoop(true);
+      } else {
+        return;
+      }
     };
   };
 
-  return (imgSrc === "") ?
-    (
-      <div className='prevUpload'> 画像をアップロードで解放。</div>
-    ) : (
-      <div className='eroList'>
-        <label className='file-label'>
-          <input
-            type="file"
-            accept='.mp3, .wav'
-            className='fileInput'
-            onChange={e => audioUploader(e)}
-          />
-          <p className="file-none">音声のアップロード</p>
-        </label>
+  return imgSrc === "" ? (
+    <div className='prevUpload'> 画像をアップロードで解放。</div>
+  ) : (
+    <div className='eroList'>
+      <label className='file-label'>
+        <input
+          type='file'
+          accept='.mp3, .wav'
+          className='fileInput'
+          onChange={(e) => audioUploader(e)}
+        />
+        <p className='file-none'>
+          <img src={icon} alt='音声のアップロード' />
+        </p>
+      </label>
 
-        <div className="audio-handler">
-          <button onClick={() => { soundLoop(true); }} id='start'>再生</button>
-          <button onClick={() => sound.pause()}>一時停止</button>
-        </div>
-      </div >
-    );
+      <div className='audio-handler'>
+        <button
+          onClick={() => {
+            soundLoop(true);
+          }}
+          id='start'>
+          再生
+        </button>
+        <button onClick={() => sound.pause()}>一時停止</button>
+      </div>
+    </div>
+  );
 };
 
 export default Voice;

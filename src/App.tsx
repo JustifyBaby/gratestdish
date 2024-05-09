@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import storage from "./firebase";
-import { ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import './App.css';
-import Voice from './Voice';
-import { fileAllowUndefined } from './types';
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
+import "./App.css";
+import Voice from "./Voice";
+import { fileAllowUndefined } from "./types";
+import icon from "./bg/img-s-ico.png";
 
 function App() {
   const [imgSrc, setImgSrc] = useState<string>("");
@@ -15,19 +21,19 @@ function App() {
     const fileName = file.name;
     const storageRef = ref(storage, `images/${fileName}`);
 
-    // eslint-disable-next-line no-console
-    uploadBytes(storageRef, file).then(() => console.log("success!")).catch(err => console.error(`${err} is happened.`));
+    uploadBytes(storageRef, file)
+      // eslint-disable-next-line no-console
+      .then(() => console.log("success!"))
+      // eslint-disable-next-line no-console
+      .catch((err) => console.error(`${err} is happened.`));
     const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      "state_changed",
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref)
-          .then(url => setImgSrc(url))
-          // エラーログは欲しい
-          // eslint-disable-next-line no-console
-          .catch(err => console.error(err + "is happen."));
-      }
-    );
+    uploadTask.on("state_changed", () => {
+      getDownloadURL(uploadTask.snapshot.ref)
+        .then((url) => setImgSrc(url))
+        // エラーログは欲しい
+        // eslint-disable-next-line no-console
+        .catch((err) => console.error(err + "is happen."));
+    });
   };
 
   const imgClick = () => {
@@ -37,26 +43,21 @@ function App() {
 
   return (
     <div id='App'>
-      <div className="flex">
+      <div className='flex'>
         <label className='file-label'>
           <input
-            type="file"
+            type='file'
             accept='.png, .jpg, .jpeg'
             className='fileInput'
-            onChange={e => fileUpLoader(e)}
+            onChange={(e) => fileUpLoader(e)}
           />
-          <p className="file-none">Click Here</p>
+          <p className='file-none'>
+            <img src={icon} alt='Click Here!!' />
+          </p>
         </label>
         <br />
         <img src={imgSrc} alt='まだ、画像がありません。' onClick={imgClick} />
-        {(imgSrc === "") ?
-          <div className='back-video'>
-            <h2 className="left">なぜこのサイトは</h2>
-            <h2 className="center">タイトルがGRATEST DISH（ｒｙなのでしょうか？</h2>
-            <div className='roll'>? ? ?</div>
-            <h2 className="right">最高の夜をお過ごしくださいね！</h2>
-          </div> :
-          <div className='void'></div>}
+
         <Voice imgSrc={imgSrc} />
       </div>
     </div>
